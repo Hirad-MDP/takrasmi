@@ -1,6 +1,6 @@
 <template>
     <div>
-
+پنل من 
     </div>
 </template>
 

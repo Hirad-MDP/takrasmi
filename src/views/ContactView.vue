@@ -1,6 +1,6 @@
 <template>
     <div>
-
+ارتباط با ما 
     </div>
 </template>
 
