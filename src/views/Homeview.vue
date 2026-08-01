@@ -1,9 +1,11 @@
 <template>
-    <div>
+      <div class="min-h-screen flex flex-col">
 <Topbar/>
 
         <Navbar/>
-
+   <main class="flex-1 pt-[144px]">
+      
+    </main>
         <Hero/>
 
 <SearchSection/>
