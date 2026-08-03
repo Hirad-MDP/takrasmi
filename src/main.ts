@@ -4,6 +4,9 @@ import  "./assets/main.css"
 import App from './App.vue'
 import router from './router'
 import "./assets/logo.webp"
+import"./assets/image/حسین محمدی.png"
+import"./assets/image/ارمان عظیمی.png"
+
 const app = createApp(App)
 
 app.use(createPinia())

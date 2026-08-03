@@ -114,15 +114,15 @@ const features = [
     title: "بیمه تکمیلی",
     description:
       "پوشش درمانی گروهی برای اعضا و خانواده ایشان.",
-    icon: "+",
-    iconBg: "bg-[#E7F4ED] text-[#16733E]"
+    icon: "✚",
+    iconBg: "bg-[#E7F4ED] text-[#16733E]  "
   },
 
   {
     title: "آموزش و بازآموزی",
     description:
       "دوره‌های تخصصی و کارگاه‌های ارتقای صلاحیت کارشناسی.",
-    icon: "◇",
+    icon: "◈",
     iconBg: "bg-[#F8F0DF] text-[#C8A44D]"
   }
 

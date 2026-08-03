@@ -1,11 +1,10 @@
 <template>
       <div class="min-h-screen flex flex-col">
-<Topbar/>
-
-        <Navbar/>
-   <main class="flex-1 pt-[144px]">
-      
-    </main>
+<header class="fixed top-0 left-0 w-full z-50">
+  <Topbar/>
+  <Navbar/>
+</header>
+   <main class="flex-1">
         <Hero/>
 
 <SearchSection/>
@@ -19,6 +18,7 @@
 <Features/>
 
 <FAQ/>
+    </main>
 
 <Footer/>
     </div>

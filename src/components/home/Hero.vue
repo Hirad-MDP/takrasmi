@@ -2,12 +2,23 @@
 
   <section
     dir="rtl"
-    class="relative overflow-hidden bg-[#07132F] text-white"
+    class="relative
+    z-0
+    overflow-visible
+    bg-gradient-to-b
+    from-[#1B2740]
+    to-[#07132F]
+    text-white
+    pt-36"
   >
 
-    <!-- Grid Background -->
+    <!-- Grid -->
+
     <div
-      class="absolute inset-0 opacity-[0.08]"
+      class="absolute
+      inset-0
+      opacity-[0.04]
+      pointer-events-none"
       style="
         background-image:
         linear-gradient(#ffffff 1px, transparent 1px),
@@ -18,43 +29,62 @@
 
 
     <!-- Green Glow -->
+
     <div
-      class="absolute -top-40 -right-40 w-[500px] h-[500px]
-      rounded-full bg-[#0F5132] opacity-20 blur-[120px]"
+      class="absolute
+      -top-24
+      -left-24
+      w-[500px]
+      h-[500px]
+      rounded-full
+      bg-[#0F5132]
+      opacity-25
+      blur-[120px]
+      pointer-events-none"
     ></div>
 
 
     <div
-      class="relative max-w-7xl mx-auto px-6
-      pt-28 pb-24 text-center"
+      class="relative
+      max-w-7xl
+      mx-auto
+      px-6
+      pb-16
+      text-center"
     >
 
       <!-- Badge -->
 
       <div
-        class="inline-flex items-center
-        border border-[#C8A44D]
+        class="inline-flex
+        items-center
+        border
+        border-[#C8A44D]
         text-[#E0B95A]
         rounded-full
-        px-5 py-2
+        px-5
+        py-2
         text-sm
-        mb-7"
+        mb-5"
       >
-
         نمایه رسمی کارشناسان — تأسیس ۱۴۰۲
-
       </div>
 
 
       <!-- Title -->
 
       <h1
-        class="text-4xl md:text-5xl lg:text-6xl
-        font-black leading-[1.5]
-        max-w-5xl mx-auto"
+        class="text-4xl
+        md:text-5xl
+        lg:text-6xl
+        font-black
+        leading-tight
+        max-w-5xl
+        mx-auto"
       >
 
         دسترسی مطمئن به
+
         <span class="text-[#D8B45A]">
           کارشناسان رسمی
         </span>
@@ -69,24 +99,25 @@
       <!-- Description -->
 
       <p
-        class="mt-7
+        class="mt-5
         text-gray-300
-        text-base md:text-lg
-        leading-9
+        text-base
+        md:text-lg
+        leading-8
         max-w-3xl
         mx-auto"
       >
-
         سامانه رسمی معرفی، جستجو و ارتباط با کارشناسان دارای صلاحیت
         — همراه با خدمات رفاهی و اعتباری تعاونی برای اعضا.
-
       </p>
 
 
-      <!-- Search Box -->
+      <!-- Search -->
 
       <div
-        class="mt-12
+        class="relative
+        z-10
+        mt-8
         max-w-4xl
         mx-auto
         bg-white
@@ -104,70 +135,235 @@
           gap-3"
         >
 
-          <!-- Name -->
+          <!-- ================= NAME ================= -->
 
-          <div class="text-right px-5 py-3">
+          <div
+            class="text-right
+            px-5
+            py-3
+            transition-all
+            duration-150"
+          >
 
             <span
-              class="block text-xs text-gray-400 mb-1"
+              class="block
+              text-xs
+              text-gray-400
+              mb-1"
             >
               نام کارشناس
             </span>
 
-            <span class="text-sm font-medium">
-              مثلاً محمدی
-            </span>
+            <input
+              v-model="name"
+              type="text"
+              placeholder="مثلاً محمدی"
+              class="border-3
+              border-transparent
+              focus:border-gray-300
+              px-2
+              py-1
+              w-full
+              font-medium
+              text-[15px]
+              text-[#13224A]
+              placeholder:text-gray-400
+              bg-transparent
+              outline-none
+              transition-colors
+              duration-150"
+            />
 
           </div>
 
+<!-- ================= FIELD ================= -->
 
-          <!-- Field -->
+<div
+  ref="fieldRef"
+  class="relative
+  z-20
+  text-right
+  px-5
+  py-3"
+>
+
+  <span
+    class="block
+    text-xs
+    text-gray-400
+    mb-1"
+  >
+    رشته کارشناسی
+  </span>
+
+
+  <!-- Selected Field -->
+
+  <button
+    type="button"
+    @click="toggleField"
+    class="border-3
+    px-2
+    py-1
+    w-full
+    font-medium
+    text-[15px]
+    text-[#13224A]
+    bg-transparent
+    flex
+    items-center
+    justify-between
+    gap-2
+    transition-colors
+    duration-150"
+    :class="
+      isFieldOpen
+        ? 'border-gray-300'
+        : 'border-transparent'
+    "
+  >
+
+    <span>
+      {{ selectedField }}
+    </span>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-4
+      h-4
+      text-gray-400
+      transition-transform
+      duration-200
+      shrink-0"
+      :class="
+        isFieldOpen
+          ? 'rotate-180'
+          : ''
+      "
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
+      />
+
+    </svg>
+
+  </button>
+
+
+  <!-- Dropdown -->
+
+  <transition
+    enter-active-class="transition-all duration-150"
+    leave-active-class="transition-all duration-100"
+
+    enter-from-class="opacity-0 scale-95"
+    enter-to-class="opacity-100 scale-100"
+
+    leave-from-class="opacity-100 scale-100"
+    leave-to-class="opacity-0 scale-95"
+  >
+
+    <ul
+      v-if="isFieldOpen"
+      class="absolute
+      left-0
+      w-[190px]
+      bg-white
+      border
+      border-gray-200
+      rounded-lg
+      shadow-xl
+      z-[999]
+      py-0.5
+      overflow-hidden"
+      :class="
+        dropdownDirection === 'up'
+          ? 'bottom-full mb-1'
+          : 'top-full mt-1'
+      "
+    >
+
+      <li
+        v-for="option in fieldOptions"
+        :key="option"
+        @click="selectField(option)"
+        class="px-2.5
+        py-1.5
+        text-xs
+        text-right
+        cursor-pointer
+        transition-colors
+        whitespace-nowrap"
+        :class="
+          selectedField === option
+            ? 'bg-[#1D4ED8] text-white font-medium'
+            : 'text-[#13224A] hover:bg-gray-50'
+        "
+      >
+        {{ option }}
+      </li>
+
+    </ul>
+
+  </transition>
+
+</div>
+
+
+          <!-- ================= LICENSE ================= -->
 
           <div
             class="text-right
-            px-5 py-3
-            border-t md:border-t-0
+            px-5
+            py-3
+            border-t
+            md:border-t-0
             md:border-r
-            border-gray-200"
+            border-transparent
+            transition-all
+            duration-150"
           >
 
             <span
-              class="block text-xs text-gray-400 mb-1"
-            >
-              رشته کارشناسی
-            </span>
-
-            <span class="text-sm font-medium">
-              همه رشته‌ها
-            </span>
-
-          </div>
-
-
-          <!-- License -->
-
-          <div
-            class="text-right
-            px-5 py-3
-            border-t md:border-t-0
-            md:border-r
-            border-gray-200"
-          >
-
-            <span
-              class="block text-xs text-gray-400 mb-1"
+              class="block
+              text-xs
+              text-gray-400
+              mb-1"
             >
               شماره پروانه
             </span>
 
-            <span class="text-sm text-gray-400">
-              ۱۴۰۲...
-            </span>
+            <input
+              v-model="license"
+              type="text"
+              placeholder="۱۴۰۲..."
+              class="border-3
+              border-transparent
+              focus:border-gray-300
+              px-2
+              py-1
+              w-full
+              font-medium
+              text-[15px]
+              text-[#13224A]
+              placeholder:text-gray-400
+              bg-transparent
+              outline-none
+              transition-colors
+              duration-150"
+            />
 
           </div>
 
 
-          <!-- Button -->
+          <!-- ================= BUTTON ================= -->
 
           <button
             class="bg-[#C8A44D]
@@ -181,9 +377,7 @@
             font-bold
             text-[#111827]"
           >
-
             جستجو کارشناس
-
           </button>
 
         </div>
@@ -230,3 +424,244 @@
   </section>
 
 </template>
+
+
+<script setup lang="ts">
+
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
+
+import { onClickOutside } from '@vueuse/core'
+
+
+// ================= INPUTS =================
+
+const name = ref('')
+const license = ref('')
+
+
+// ================= FIELD OPTIONS =================
+
+const fieldOptions = [
+  'همهٔ رشته‌ها',
+  'راه و ساختمان',
+  'امور ثبتی و نقشه‌برداری',
+  'کشاورزی و منابع طبیعی',
+  'تصادفات و راهنمایی',
+  'حسابداری و حسابرسی',
+  'وسایط نقلیه موتوری',
+  'برق، الکترونیک و مخابرات',
+  'امور بازرگانی و اموال منقول',
+]
+
+
+const selectedField = ref(
+  fieldOptions[0]
+)
+
+
+// ================= DROPDOWN =================
+
+const isFieldOpen = ref(false)
+
+const fieldRef =
+  ref<HTMLElement | null>(null)
+
+const dropdownDirection =
+  ref<'up' | 'down'>('down')
+
+
+// ================= CALCULATE DIRECTION =================
+
+const calculateDropdownDirection = () => {
+
+  if (!fieldRef.value) return
+
+  const rect =
+    fieldRef.value.getBoundingClientRect()
+
+  const isMobile =
+    window.innerWidth < 768
+
+  const dropdownHeight = 220
+
+
+  // MOBILE
+
+  if (isMobile) {
+
+    const navbarHeight = 64
+
+    const spaceAbove =
+      rect.top - navbarHeight
+
+    const spaceBelow =
+      window.innerHeight - rect.bottom
+
+
+    if (spaceBelow >= dropdownHeight) {
+
+      dropdownDirection.value = 'down'
+
+    }
+
+    else if (spaceAbove >= dropdownHeight) {
+
+      dropdownDirection.value = 'up'
+
+    }
+
+    else {
+
+      dropdownDirection.value =
+        spaceBelow >= spaceAbove
+          ? 'down'
+          : 'up'
+
+    }
+
+    return
+  }
+
+
+  // DESKTOP
+
+  const spaceAbove =
+    rect.top
+
+  const spaceBelow =
+    window.innerHeight - rect.bottom
+
+
+  if (spaceBelow >= dropdownHeight) {
+
+    dropdownDirection.value = 'down'
+
+  }
+
+  else if (spaceAbove >= dropdownHeight) {
+
+    dropdownDirection.value = 'up'
+
+  }
+
+  else {
+
+    dropdownDirection.value =
+      spaceBelow >= spaceAbove
+        ? 'down'
+        : 'up'
+
+  }
+
+}
+
+
+// ================= TOGGLE =================
+
+const toggleField = () => {
+
+  if (!isFieldOpen.value) {
+
+    calculateDropdownDirection()
+
+  }
+
+  isFieldOpen.value =
+    !isFieldOpen.value
+
+}
+
+
+// ================= SELECT =================
+
+const selectField = (
+  option: string
+) => {
+
+  selectedField.value =
+    option
+
+  isFieldOpen.value =
+    false
+
+}
+
+
+// ================= CLICK OUTSIDE =================
+
+onClickOutside(
+  fieldRef,
+  () => {
+
+    isFieldOpen.value =
+      false
+
+  }
+)
+
+
+// ================= SCROLL =================
+
+const handleScroll = () => {
+
+  if (isFieldOpen.value) {
+
+    calculateDropdownDirection()
+
+  }
+
+}
+
+
+// ================= RESIZE =================
+
+const handleResize = () => {
+
+  if (isFieldOpen.value) {
+
+    calculateDropdownDirection()
+
+  }
+
+}
+
+
+// ================= MOUNT =================
+
+onMounted(() => {
+
+  window.addEventListener(
+    'scroll',
+    handleScroll,
+    { passive: true }
+  )
+
+  window.addEventListener(
+    'resize',
+    handleResize
+  )
+
+})
+
+
+// ================= UNMOUNT =================
+
+onBeforeUnmount(() => {
+
+  window.removeEventListener(
+    'scroll',
+    handleScroll
+  )
+
+  window.removeEventListener(
+    'resize',
+    handleResize
+  )
+
+})
+
+</script>

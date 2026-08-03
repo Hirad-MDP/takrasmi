@@ -1,11 +1,11 @@
 <template>
   <nav
   :class="[
-    'fixed left-0 w-full bg-white shadow-md z-50 transition-all duration-300',
-    isScrolled ? 'top-0' : 'top-12'
+    'fixed left-0 w-full bg-white shadow-md z-50 transition-all duration-300 p-2 ',
+    isScrolled ? 'top-0' : 'top-8'
   ]"
 >
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-6">
 
       <div
         class="
@@ -92,7 +92,7 @@
           "
         >
 
-          <!-- صفحه اصلی -->
+          <!-- نمایش اعضا -->
 
           <li
             class="
@@ -104,23 +104,7 @@
               duration-200
             "
           >
-           نمایش اعضا
-          </li>
-
-
-          <!-- درباره ما -->
-
-          <li
-            class="
-              cursor-pointer
-              text-[#13224A]
-              font-medium
-              hover:text-[#1D4ED8]
-              transition-all
-              duration-200
-            "
-          >
-           تماس با ما
+           <RouterLink to="/experts">نمایش اعضا</RouterLink>
           </li>
 
 
@@ -136,11 +120,11 @@
               duration-200
             "
           >
-           درباره ما
+           <RouterLink to="/contact">تماس با ما</RouterLink>
           </li>
 
 
-          <!-- نمایش اعضا -->
+          <!-- درباره ما -->
 
           <li
             class="
@@ -152,7 +136,23 @@
               duration-200
             "
           >
-            صفحه اصلی
+           <RouterLink to="/about">درباره ما</RouterLink>
+          </li>
+
+
+          <!-- صفحه اصلی -->
+
+          <li
+            class="
+              cursor-pointer
+              text-[#13224A]
+              font-medium
+              hover:text-[#1D4ED8]
+              transition-all
+              duration-200
+            "
+          >
+            <RouterLink to="/">صفحه اصلی</RouterLink>
           </li>
 
         </ul>
@@ -379,7 +379,7 @@
                   duration-200
                 "
               >
-                صفحه اصلی
+                <RouterLink to="/" @click="isOpen = false" class="block">صفحه اصلی</RouterLink>
               </li>
 
 
@@ -405,7 +405,7 @@
                   duration-200
                 "
               >
-                درباره ما
+                <RouterLink to="/about" @click="isOpen = false" class="block">درباره ما</RouterLink>
               </li>
 
 
@@ -431,7 +431,7 @@
                   duration-200
                 "
               >
-                تماس با ما
+                <RouterLink to="/contact" @click="isOpen = false" class="block">تماس با ما</RouterLink>
               </li>
 
 
@@ -457,7 +457,7 @@
                   duration-200
                 "
               >
-                نمایش اعضا
+                <RouterLink to="/experts" @click="isOpen = false" class="block">نمایش اعضا</RouterLink>
               </li>
 
             </ul>
