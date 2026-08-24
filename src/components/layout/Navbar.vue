@@ -1,517 +1,175 @@
 <template>
   <nav
-  :class="[
-    'fixed left-0 w-full bg-white shadow-md z-50 transition-all duration-300 p-2 ',
-    isScrolled ? 'top-0' : 'top-8'
-  ]"
->
-    <div class="max-w-7xl mx-auto px-6">
-
-      <div
-        class="
-          hidden
-          md:flex
-          flex-row-reverse
-          items-center
-          h-[72px]
-        "
-      >
-
-        <!-- ================= LOGO + TEXT ================= -->
-
-        <div
-          class="
-            flex
-            flex-row-reverse
-            items-center
-            gap-3
-          "
-        >
-
-          <!-- Logo -->
-
-          <div
-            class="
-              bg-[#0F5132]
-              rounded-lg
-              p-1.5
-              shadow-sm
-            "
-          >
-
-            <img
-              :src="logo"
-              alt="logo"
-              class="w-12 h-12 object-contain"
-            />
-
+    :class="[
+      'fixed left-0 z-50 w-full bg-white p-1 shadow-md transition-all duration-300',
+      isScrolled ? 'top-0' : 'top-[30px]',
+    ]"
+  >
+    <div class="mx-auto max-w-7xl px-6">
+      <!-- Desktop -->
+      <div class="hidden h-[72px] flex-row-reverse items-center md:flex">
+        <RouterLink to="/" class="flex cursor-pointer flex-row-reverse items-center gap-3">
+          <div class="rounded-lg bg-[#0F5132] p-1.5 shadow-sm">
+            <img :src="logo" alt="logo" class="h-12 w-12 object-contain" />
           </div>
-
-
-          <!-- Text -->
 
           <div class="text-right">
-
-            <h1
-              class="
-                text-[18px]
-                font-bold
-                text-[#13224A]
-                whitespace-nowrap
-              "
-            >
-            تعاونی تامین آتیه کارشناسان
+            <h1 class="whitespace-nowrap text-[18px] font-bold text-[#13224A]">
+              تعاونی تامین آتیه کارشناسان
             </h1>
-
-            <p
-              class="
-                text-[11px]
-                text-gray-500
-                whitespace-nowrap
-              "
-            >
+            <p class="whitespace-nowrap text-[11px] text-gray-500">
               دادگستری استان گلستان — تأمین آتیه کارشناسان
             </p>
-
           </div>
+        </RouterLink>
 
-        </div>
-
-
-        <!-- ================= MENU ================= -->
-
-        <ul
-          class="
-            flex
-            items-center
-            gap-6
-            text-[14px]
-            font-medium
-            mr-auto
-            ml-4
-          "
-        >
-
-          <!-- نمایش اعضا -->
-
-          <li
-            class="
-              cursor-pointer
-              text-[#13224A]
-              font-medium
-              hover:text-[#1D4ED8]
-              transition-all
-              duration-200
-            "
-          >
-           <RouterLink to="/experts">نمایش اعضا</RouterLink>
+        <!--
+          Active styling is applied only to these regular navigation links.
+          The login/panel button intentionally does not use this logic.
+        -->
+        <ul class="mr-auto ml-4 flex items-center gap-6 text-[14px] font-medium">
+          <li v-for="item in desktopNavItems" :key="item.to">
+            <RouterLink :to="item.to" :class="desktopLinkClass(item.to)">
+              {{ item.label }}
+              <span
+                :class="[
+                  'absolute -bottom-2 right-0 h-0.5 rounded-full bg-[#1D4ED8] transition-all duration-200',
+                  isNavActive(item.to) ? 'w-full' : 'w-0',
+                ]"
+                aria-hidden="true"
+              />
+            </RouterLink>
           </li>
-
-
-          <!-- تماس با ما -->
-
-          <li
-            class="
-              cursor-pointer
-              text-[#13224A]
-              font-medium
-              hover:text-[#1D4ED8]
-              transition-all
-              duration-200
-            "
-          >
-           <RouterLink to="/contact">تماس با ما</RouterLink>
-          </li>
-
-
-          <!-- درباره ما -->
-
-          <li
-            class="
-              cursor-pointer
-              text-[#13224A]
-              font-medium
-              hover:text-[#1D4ED8]
-              transition-all
-              duration-200
-            "
-          >
-           <RouterLink to="/about">درباره ما</RouterLink>
-          </li>
-
-
-          <!-- صفحه اصلی -->
-
-          <li
-            class="
-              cursor-pointer
-              text-[#13224A]
-              font-medium
-              hover:text-[#1D4ED8]
-              transition-all
-              duration-200
-            "
-          >
-            <RouterLink to="/">صفحه اصلی</RouterLink>
-          </li>
-
         </ul>
 
-
-        <!-- ================= LOGIN BUTTON ================= -->
-
-        <button
-          class="
-            bg-[#13224A]
-            text-white
-            rounded-lg
-            px-6
-            py-2.5
-            text-[13px]
-            font-medium
-
-            hover:font-bold
-
-            active:scale-95
-            active:shadow-inner
-
-            transition-all
-            duration-150
-          "
+        <!-- No persistent active color on this button, as requested. -->
+        <RouterLink
+          :to="isLoggedIn ? '/panel' : '/login'"
+          class="rounded-lg bg-[#13224A] px-6 py-3 text-[13px] font-medium text-white transition-all duration-150 hover:bg-[#1A2F61] hover:font-bold active:scale-95 active:shadow-inner"
         >
-          ← ورود اعضا
-        </button>
-
+          {{ isLoggedIn ? '← پنل من' : '← ورود اعضا' }}
+        </RouterLink>
       </div>
 
-
-      <!-- ================================================= -->
-      <!-- MOBILE -->
-      <!-- ================================================= -->
-
+      <!-- Mobile -->
       <div class="md:hidden">
-
-        <!-- ================= MOBILE HEADER ================= -->
-
-        <div
-          class="
-            flex
-            items-center
-            justify-between
-            h-[68px]
-            px-1
-            border-b
-            border-gray-200
-          "
-        >
-
-          <!-- ================= HAMBURGER ================= -->
-
+        <div class="flex h-[68px] items-center justify-between border-b border-gray-200 px-1">
           <button
+            type="button"
+            :aria-expanded="isOpen"
+            aria-label="نمایش منو"
+            class="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-[#13224A] transition-all duration-200 hover:font-bold active:scale-90"
             @click="toggleMenu"
-            class="
-              w-10
-              h-10
-              rounded-lg
-              border
-              border-gray-200
-              flex
-              items-center
-              justify-center
-              text-[#13224A]
-
-              hover:font-bold  
-
-              active:scale-90
-
-              transition-all
-              duration-200
-            "
           >
-
-            <!-- Hamburger -->
-
-            <svg
-              v-if="!isOpen"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-
+            <svg v-if="!isOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-
-
-            <!-- Close -->
-
-            <svg
-              v-else
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-
           </button>
 
-
-          <!-- ================= MOBILE LOGO + TEXT ================= -->
-
-          <div
-            class="
-              flex
-              flex-row-reverse
-              items-center
-              gap-2
-            "
-          >
-
-            <!-- Logo -->
-
-            <div
-              class="
-                bg-[#0F5132]
-                rounded-lg
-                p-1
-              "
-            >
-
-              <img
-                :src="logo"
-                class="w-10 h-10 object-contain"
-                alt="logo"
-              />
-
+          <RouterLink to="/" class="flex cursor-pointer flex-row-reverse items-center gap-2" @click="isOpen = false">
+            <div class="rounded-lg bg-[#0F5132] p-1">
+              <img :src="logo" class="h-10 w-10 object-contain" alt="logo" />
             </div>
-
-
-            <!-- Text -->
-
             <div class="text-right">
-
-              <h2
-                class="
-                  text-[13px]
-                  font-bold
-                  text-[#13224A]
-                  whitespace-nowrap
-                "
-              >
+              <h2 class="whitespace-nowrap text-[13px] font-bold text-[#13224A]">
                 تعاونی تأمین آتیه کارشناسان
               </h2>
-
-              <p
-                class="
-                  text-[9px]
-                  text-gray-500
-                  whitespace-nowrap
-                "
-              >
+              <p class="whitespace-nowrap text-[9px] text-gray-500">
                 کانون کارشناسان رسمی دادگستری استان گلستان
               </p>
-
             </div>
-
-          </div>
-
+          </RouterLink>
         </div>
-
-
-        <!-- ================================================= -->
-        <!-- MOBILE DROPDOWN -->
-        <!-- ================================================= -->
 
         <transition
           enter-active-class="transition-all duration-300"
           leave-active-class="transition-all duration-300"
-
-          enter-from-class="opacity-0 -translate-y-3"
-          enter-to-class="opacity-100 translate-y-0"
-
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 -translate-y-3"
+          enter-from-class="-translate-y-3 opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="-translate-y-3 opacity-0"
         >
-
-          <div
-            v-if="isOpen"
-            class="bg-white shadow-sm"
-          >
-
+          <div v-if="isOpen" class="bg-white shadow-sm">
             <ul>
-
-              <!-- ================= HOME ================= -->
-
-              <li
-                class="
-                  border-b
-                  border-gray-200
-                  py-3
-                  px-6
-
-                  text-right
-                  text-[15px]
-                  font-medium
-                  text-[#13224A]
-
-                  cursor-pointer
-
-                  hover:text-[#1D4ED8]
-
-                  transition-all
-                  duration-200
-                "
-              >
-                <RouterLink to="/" @click="isOpen = false" class="block">صفحه اصلی</RouterLink>
+              <li v-for="item in mobileNavItems" :key="item.to" class="border-b border-gray-200">
+                <RouterLink
+                  :to="item.to"
+                  :class="mobileLinkClass(item.to)"
+                  @click="isOpen = false"
+                >
+                  <span>{{ item.label }}</span>
+                  <span v-if="isNavActive(item.to)" class="h-2 w-2 rounded-full bg-[#1D4ED8]" />
+                </RouterLink>
               </li>
-
-
-              <!-- ================= ABOUT ================= -->
-
-              <li
-                class="
-                  border-b
-                  border-gray-200
-                  py-3
-                  px-6
-
-                  text-right
-                  text-[15px]
-                  font-medium
-                  text-[#13224A]
-
-                  cursor-pointer
-
-                  hover:text-[#1D4ED8]
-
-                  transition-all
-                  duration-200
-                "
-              >
-                <RouterLink to="/about" @click="isOpen = false" class="block">درباره ما</RouterLink>
-              </li>
-
-
-              <!-- ================= CONTACT ================= -->
-
-              <li
-                class="
-                  border-b
-                  border-gray-200
-                  py-3
-                  px-6
-
-                  text-right
-                  text-[15px]
-                  font-medium
-                  text-[#13224A]
-
-                  cursor-pointer
-
-                  hover:text-[#1D4ED8]
-
-                  transition-all
-                  duration-200
-                "
-              >
-                <RouterLink to="/contact" @click="isOpen = false" class="block">تماس با ما</RouterLink>
-              </li>
-
-
-              <!-- ================= MEMBERS ================= -->
-
-              <li
-                class="
-                  border-b
-                  border-gray-200
-                  py-3
-                  px-6
-
-                  text-right
-                  text-[15px]
-                  font-medium
-                  text-[#13224A]
-
-                  cursor-pointer
-
-                  hover:text-[#1D4ED8]
-
-                  transition-all
-                  duration-200
-                "
-              >
-                <RouterLink to="/experts" @click="isOpen = false" class="block">نمایش اعضا</RouterLink>
-              </li>
-
             </ul>
 
-
-            <!-- ================= MOBILE LOGIN ================= -->
-
             <div class="p-4">
-
-              <button
-                class="
-                  w-full
-                  bg-[#13224A]
-                  text-white
-
-                  rounded-lg
-
-                  py-2.5
-
-                  text-[14px]
-                  font-semibold
-
-                  hover:font-bold
-
-                  active:scale-95
-                  active:shadow-inner
-
-                  transition-all
-                  duration-150
-                "
+              <RouterLink
+                :to="isLoggedIn ? '/panel' : '/login'"
+                class="flex w-full items-center justify-center rounded-lg bg-[#13224A] py-2.5 text-[14px] font-semibold text-white transition-all duration-150 hover:bg-[#1A2F61] hover:font-bold active:scale-95 active:shadow-inner"
+                @click="isOpen = false"
               >
-                ورود اعضا ←
-              </button>
-
+                {{ isLoggedIn ? 'پنل من ←' : 'ورود اعضا ←' }}
+              </RouterLink>
             </div>
-
           </div>
-
         </transition>
-
       </div>
-
     </div>
-
   </nav>
 </template>
 
-
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue"
-import logo from "@/assets/logo.webp"
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import logo from '@/assets/logo.webp'
+import { useAuth } from '@/composables/useAuth'
+
+interface NavItem {
+  label: string
+  to: string
+}
+
+const { isLoggedIn } = useAuth()
+const route = useRoute()
+
+const desktopNavItems: NavItem[] = [
+  { label: 'نمایش اعضا', to: '/experts' },
+  { label: 'تماس با ما', to: '/contact' },
+  { label: 'درباره ما', to: '/about' },
+  { label: 'صفحه اصلی', to: '/' },
+]
+
+const mobileNavItems: NavItem[] = [...desktopNavItems].reverse()
 
 const isOpen = ref(false)
 const isScrolled = ref(false)
+
+/**
+ * Home is exact-only. Other items also remain active on their child routes;
+ * for example /experts/3871 keeps «نمایش اعضا» active.
+ */
+const isNavActive = (path: string) => {
+  if (path === '/') return route.path === '/'
+  return route.path === path || route.path.startsWith(`${path}/`)
+}
+
+const desktopLinkClass = (path: string) => [
+  'relative block whitespace-nowrap py-1 font-medium transition-colors duration-200',
+  isNavActive(path)
+    ? 'font-extrabold text-[#1D4ED8]'
+    : 'text-[#13224A] hover:text-[#1D4ED8]',
+]
+
+const mobileLinkClass = (path: string) => [
+  'flex items-center justify-between px-6 py-3 text-right text-[15px] transition-colors duration-200',
+  isNavActive(path)
+    ? 'bg-blue-50 font-extrabold text-[#1D4ED8]'
+    : 'font-medium text-[#13224A] hover:bg-gray-50 hover:text-[#1D4ED8]',
+]
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value
@@ -521,11 +179,19 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 10
 }
 
+watch(
+  () => route.fullPath,
+  () => {
+    isOpen.value = false
+  },
+)
+
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll)
+  handleScroll()
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll)
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>

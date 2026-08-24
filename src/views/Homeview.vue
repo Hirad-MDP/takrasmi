@@ -7,7 +7,6 @@
    <main class="flex-1">
         <Hero/>
 
-<SearchSection/>
 
 <Statistics/>
 
@@ -31,7 +30,6 @@ import FAQ from '../components/home/FAQ.vue';
 import Features from '../components/home/Features.vue';
 import Hero from '../components/home/Hero.vue';
 import Managers from '../components/home/Managers.vue';
-import SearchSection from '../components/home/SearchSection.vue';
 import Statistics from '../components/home/Statistics.vue';
 import Footer from '../components/layout/Footer.vue';
 import Topbar from '../components/layout/Topbar.vue';

@@ -161,8 +161,8 @@
               class="border-3
               border-transparent
               focus:border-gray-300
-              px-2
-              py-1
+              px-1
+              py-0.5
               w-full
               font-medium
               text-[15px]
@@ -176,145 +176,147 @@
 
           </div>
 
-<!-- ================= FIELD ================= -->
 
-<div
-  ref="fieldRef"
-  class="relative
-  z-20
-  text-right
-  px-5
-  py-3"
->
+          <!-- ================= FIELD ================= -->
 
-  <span
-    class="block
-    text-xs
-    text-gray-400
-    mb-1"
-  >
-    رشته کارشناسی
-  </span>
+          <div
+            ref="fieldRef"
+            class="relative
+            z-20
+            text-right
+            px-5
+            py-3
+            rounded-xl"
+          >
 
-
-  <!-- Selected Field -->
-
-  <button
-    type="button"
-    @click="toggleField"
-    class="border-3
-    px-2
-    py-1
-    w-full
-    font-medium
-    text-[15px]
-    text-[#13224A]
-    bg-transparent
-    flex
-    items-center
-    justify-between
-    gap-2
-    transition-colors
-    duration-150"
-    :class="
-      isFieldOpen
-        ? 'border-gray-300'
-        : 'border-transparent'
-    "
-  >
-
-    <span>
-      {{ selectedField }}
-    </span>
-
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="w-4
-      h-4
-      text-gray-400
-      transition-transform
-      duration-200
-      shrink-0"
-      :class="
-        isFieldOpen
-          ? 'rotate-180'
-          : ''
-      "
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M19 9l-7 7-7-7"
-      />
-
-    </svg>
-
-  </button>
+            <span
+              class="block
+              text-xs
+              text-gray-400
+              mb-1"
+            >
+              رشته کارشناسی
+            </span>
 
 
-  <!-- Dropdown -->
+            <!-- Selected Field -->
 
-  <transition
-    enter-active-class="transition-all duration-150"
-    leave-active-class="transition-all duration-100"
+            <button
+              type="button"
+              @click="toggleField"
+              class="w-full
+              flex
+              items-center
+              justify-between
+              gap-2
+              text-sm
+              font-medium
+              border-3
+              border-gray-300
+              px-2
+              py-1
+              transition-colors
+              duration-150
+              outline-none"
+              :class="
+                isFieldOpen
+                  ? 'border-gray-300'
+                  : 'border-transparent'
+              "
+            >
 
-    enter-from-class="opacity-0 scale-95"
-    enter-to-class="opacity-100 scale-100"
+              <span>
+                {{ selectedField }}
+              </span>
 
-    leave-from-class="opacity-100 scale-100"
-    leave-to-class="opacity-0 scale-95"
-  >
 
-    <ul
-      v-if="isFieldOpen"
-      class="absolute
-      left-0
-      w-[190px]
-      bg-white
-      border
-      border-gray-200
-      rounded-lg
-      shadow-xl
-      z-[999]
-      py-0.5
-      overflow-hidden"
-      :class="
-        dropdownDirection === 'up'
-          ? 'bottom-full mb-1'
-          : 'top-full mt-1'
-      "
-    >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4
+                h-4
+                text-gray-400
+                transition-transform
+                duration-200"
+                :class="
+                  isFieldOpen
+                    ? 'rotate-180'
+                    : ''
+                "
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
 
-      <li
-        v-for="option in fieldOptions"
-        :key="option"
-        @click="selectField(option)"
-        class="px-2.5
-        py-1.5
-        text-xs
-        text-right
-        cursor-pointer
-        transition-colors
-        whitespace-nowrap"
-        :class="
-          selectedField === option
-            ? 'bg-[#1D4ED8] text-white font-medium'
-            : 'text-[#13224A] hover:bg-gray-50'
-        "
-      >
-        {{ option }}
-      </li>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
 
-    </ul>
+              </svg>
 
-  </transition>
+            </button>
 
-</div>
+
+            <!-- Dropdown -->
+
+            <transition
+              enter-active-class="transition-all duration-150"
+              leave-active-class="transition-all duration-100"
+
+              enter-from-class="opacity-0 scale-95"
+              enter-to-class="opacity-100 scale-100"
+
+              leave-from-class="opacity-100 scale-100"
+              leave-to-class="opacity-0 scale-95"
+            >
+
+              <ul
+                v-if="isFieldOpen"
+                class="absolute
+                left-0
+                w-[190px]
+                bg-white
+                border
+                border-gray-200
+                rounded-lg
+                shadow-xl
+                z-[999]
+                py-0.5
+                overflow-hidden"
+                :class="
+                  dropdownDirection === 'up'
+                    ? 'bottom-full mb-1'
+                    : 'top-full mt-1'
+                "
+              >
+
+                <li
+                  v-for="option in fieldOptions"
+                  :key="option"
+                  @click="selectField(option)"
+                  class="px-2.5
+                  py-1.5
+                  text-xs
+                  text-right
+                  cursor-pointer
+                  transition-colors
+                  whitespace-nowrap"
+                  :class="
+                    selectedField === option
+                      ? 'bg-[#1D4ED8] text-white font-medium'
+                      : 'text-[#13224A] hover:bg-gray-50'
+                  "
+                >
+                  {{ option }}
+                </li>
+
+              </ul>
+
+            </transition>
+
+          </div>
 
 
           <!-- ================= LICENSE ================= -->
@@ -347,8 +349,8 @@
               class="border-3
               border-transparent
               focus:border-gray-300
-              px-2
-              py-1
+              px-1
+              py-0.5
               w-full
               font-medium
               text-[15px]
@@ -366,6 +368,8 @@
           <!-- ================= BUTTON ================= -->
 
           <button
+            type="button"
+            @click="searchExperts"
             class="bg-[#C8A44D]
             hover:bg-[#DAB965]
             active:scale-95
@@ -436,10 +440,18 @@ import {
 
 import { onClickOutside } from '@vueuse/core'
 
+import { useRouter } from 'vue-router'
+
+
+// ================= ROUTER =================
+
+const router = useRouter()
+
 
 // ================= INPUTS =================
 
 const name = ref('')
+
 const license = ref('')
 
 
@@ -472,6 +484,25 @@ const fieldRef =
 
 const dropdownDirection =
   ref<'up' | 'down'>('down')
+
+
+// ================= SEARCH =================
+
+const searchExperts = () => {
+
+  router.push({
+    path: '/experts',
+    query: {
+      name: name.value || undefined,
+      field:
+        selectedField.value !== 'همهٔ رشته‌ها'
+          ? selectedField.value
+          : undefined,
+      license: license.value || undefined
+    }
+  })
+
+}
 
 
 // ================= CALCULATE DIRECTION =================

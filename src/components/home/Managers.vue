@@ -123,7 +123,7 @@ const managers = [
   {
     name: "سروش (حسین) محمدی",
     role: "مدیرعامل",
-    image: "/src/assets/image/حسین محمدی.png"
+    image: "/src/assets/image/حسین محمدی.jpg"
   },
 
   {

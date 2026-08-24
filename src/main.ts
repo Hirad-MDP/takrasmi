@@ -4,8 +4,8 @@ import  "./assets/main.css"
 import App from './App.vue'
 import router from './router'
 import "./assets/logo.webp"
-import"./assets/image/حسین محمدی.png"
-import"./assets/image/ارمان عظیمی.png"
+import"./assets/image/حسین محمدی.jpg"
+import"./assets/image/ارمان عظیمی.jpg"
 
 const app = createApp(App)
 
