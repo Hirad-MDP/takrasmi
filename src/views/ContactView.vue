@@ -69,6 +69,23 @@
               </div>
 
 
+              <!-- ================= Error Message ================= -->
+              <div
+                v-if="errorMessage"
+                class="
+                  bg-red-50
+                  text-red-600
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-sm
+                  font-medium
+                "
+              >
+                {{ errorMessage }}
+              </div>
+
+
               <!-- ================= Name + Phone ================= -->
               <div
                 class="
@@ -241,6 +258,7 @@
               <!-- ================= Submit ================= -->
               <button
                 type="submit"
+                :disabled="isSubmitting"
                 class="
                   w-full
                   bg-[#13224A]
@@ -252,9 +270,11 @@
                   rounded-lg
                   py-3.5
                   font-bold
+                  disabled:opacity-60
+                  disabled:cursor-not-allowed
                 "
               >
-                ارسال پیام
+                {{ isSubmitting ? 'در حال ارسال...' : 'ارسال پیام' }}
               </button>
 
             </form>
@@ -465,6 +485,7 @@ import { reactive, ref } from 'vue'
 import Topbar from '@/components/layout/Topbar.vue'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
+import { submitContactForm } from '@/services/contactApi'
 
 
 const form = reactive({
@@ -476,11 +497,28 @@ const form = reactive({
 
 
 const showSuccess = ref(false)
+const isSubmitting = ref(false)
+const errorMessage = ref('')
 
 
-const submitForm = () => {
+const submitForm = async () => {
 
-  showSuccess.value = true
+  errorMessage.value = ''
+  isSubmitting.value = true
+
+  try {
+    await submitContactForm(form)
+
+    showSuccess.value = true
+    form.fullName = ''
+    form.phone = ''
+    form.subject = ''
+    form.message = ''
+  } catch (err) {
+    errorMessage.value = err instanceof Error ? err.message : 'خطایی رخ داد.'
+  } finally {
+    isSubmitting.value = false
+  }
 
 }
 
