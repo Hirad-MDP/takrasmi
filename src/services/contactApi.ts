@@ -1,5 +1,8 @@
-// سرویس اتصال فرم «تماس با ما» به Formspree
-// آدرس فرم رو از فایل .env می‌خونه (متغیر VITE_FORMSPREE_ENDPOINT)
+// سرویس اتصال فرم «تماس با ما» به API گارنت (Garnet)
+// فیلدهای فرم بر اساس formId=1 با این شماره‌ها ثبت می‌شن:
+// 1 = نام و نام خانوادگی، 2 = شمارهٔ تماس، 3 = موضوع، 4 = متن پیام
+
+const API_BASE_URL = 'https://takrasmi.com/GarnetAPI'
 
 export interface ContactFormData {
   fullName: string
@@ -8,30 +11,32 @@ export interface ContactFormData {
   message: string
 }
 
-const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT as string
-
 export async function submitContactForm(data: ContactFormData): Promise<void> {
-  if (!FORMSPREE_ENDPOINT) {
-    throw new Error(
-      'آدرس API تنظیم نشده. مقدار VITE_FORMSPREE_ENDPOINT رو در فایل .env قرار بده.',
-    )
-  }
-
-  const response = await fetch(FORMSPREE_ENDPOINT, {
+  const response = await fetch(`${API_BASE_URL}/forms/createResults`, {
     method: 'POST',
-    headers: {
+    headers: {'g-platform': 'Garnet-Build-v4',
+            'g-api-key': 'AEbk35zB9YfSqw8u9mjH7ykNK4xq2Yq5',
+            // "Authorization": "Bearer " + token,
       'Content-Type': 'application/json',
-      Accept: 'application/json',
     },
     body: JSON.stringify({
-      name: data.fullName,
-      phone: data.phone,
-      subject: data.subject,
-      message: data.message,
+      duration: 0,
+      formId: 1,
+      formResults: {
+        '1': data.fullName,
+        '2': data.phone,
+        '3': data.subject,
+        '4': data.message,
+      },
+      status: 1,
+      uniqueForm: true,
     }),
   })
 
+  const responseData = await response.json().catch(() => null)
+
   if (!response.ok) {
-    throw new Error('ارسال پیام با خطا مواجه شد. لطفاً دوباره تلاش کنید.')
+    const message = responseData?.Message || responseData?.message
+    throw new Error(message || `خطای سرور (کد ${response.status})`)
   }
 }

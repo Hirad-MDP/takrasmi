@@ -24,7 +24,7 @@
             </p>
           </div>
 
-          <form class="space-y-[22px]" @submit.prevent>
+          <form class="space-y-[22px]" @submit.prevent="submitForm">
             <!-- Identity -->
             <section class="rounded-[17px] border border-[#E2E6EC] bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.02)]">
               <h2 class="mb-5 text-[17px] font-extrabold leading-6 text-[#071A41]">
@@ -327,8 +327,12 @@
 
             <!-- Actions -->
             <div class="flex flex-col gap-3 border-t border-[#DFE3E8] pt-4 sm:flex-row sm:items-center">
-              <button type="submit" class="h-[53px] rounded-xl bg-[#0B1B3A] px-7 text-sm font-extrabold text-white transition hover:bg-[#142B58]">
-                ذخیرهٔ همهٔ تغییرات
+              <button
+                type="submit"
+                :disabled="savingIdentity"
+                class="h-[53px] rounded-xl bg-[#0B1B3A] px-7 text-sm font-extrabold text-white transition hover:bg-[#142B58] disabled:opacity-60"
+              >
+                {{ savingIdentity ? 'در حال ذخیره...' : 'ذخیرهٔ همهٔ تغییرات' }}
               </button>
               <button type="button" class="secondary-button" @click="openPasswordModal">
                 تغییر رمز عبور
@@ -550,6 +554,7 @@ import Topbar from '@/components/layout/Topbar.vue'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 import { useAuth } from '@/composables/useAuth'
+import { updateImportant } from '@/services/profileApi'
 
 const router = useRouter()
 const { logout } = useAuth()
@@ -667,6 +672,33 @@ const form = reactive({
   license: '',
   bio: '',
 })
+
+/* ============================================================
+   ذخیرهٔ اطلاعات هویتی (بخش «اطلاعات هویتی» بالای فرم)
+   متصل به API: POST /users/updateImportant
+   ============================================================ */
+const savingIdentity = ref(false)
+
+const submitForm = async () => {
+  savingIdentity.value = true
+
+  try {
+    await updateImportant({
+      first_name: form.firstName,
+      last_name: form.lastName,
+      national_code: form.nationalId,
+      gender: form.gender === 'female' ? 2 : 1,
+      birth_date: form.birthDate,
+      status: 1,
+    })
+
+    toast('success', 'اطلاعات هویتی ذخیره شد', 'تغییرات شما با موفقیت ثبت شد.')
+  } catch (err) {
+    toast('error', 'ذخیره‌سازی ناموفق بود', err instanceof Error ? err.message : 'خطایی رخ داد.')
+  } finally {
+    savingIdentity.value = false
+  }
+}
 
 const provinces = [
   'تهران',

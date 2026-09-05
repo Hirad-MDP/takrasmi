@@ -538,7 +538,7 @@ const verifyOtp = async () => {
     const result = await checkVerificationCode(code, phone.value)
 
     stopCountdown()
-    login(result?.Token)
+    login(result?.token)
     router.push('/panel')
   } catch (err) {
     otpError.value = err instanceof Error ? err.message : 'کد تایید نادرست است.'
